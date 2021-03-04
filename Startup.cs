@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cliapi.Data;
+using Cliapi.GraphQL;
+using Cliapi.GraphQL.Platforms;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,11 +28,19 @@ namespace Cliapi
         public void ConfigureServices(IServiceCollection services)
         {
             var builder = new SqlConnectionStringBuilder();
-            Configuration.GetConnectionString("SQLServerConnection");
+            builder.ConnectionString = Configuration.GetConnectionString("SQLServerConnection");
             builder.UserID = Configuration["UserId"];
             builder.Password = Configuration["Password"];
 
-            services.AddPooledDbContextFactory<AppDbContext>(opt => opt.UseSqlServer(builder.ConnectionString));
+            services.AddPooledDbContextFactory<AppDbContext>(opt => opt.UseSqlServer
+                (builder.ConnectionString));
+
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>()
+                .AddType<PlatformType>()
+                .AddFiltering()
+                .AddSorting();
         }
 
         
@@ -45,10 +55,7 @@ namespace Cliapi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapGraphQL();
             });
         }
     }
