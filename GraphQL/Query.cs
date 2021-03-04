@@ -15,5 +15,13 @@ namespace Cliapi.GraphQL
         {
             return context.Platforms;
         }
+
+        [UseDbContext(typeof(AppDbContext))]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Command> GetCommand([ScopedService] AppDbContext context)
+        {
+            return context.Commands;
+        }
     }
 }

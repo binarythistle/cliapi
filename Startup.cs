@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cliapi.Data;
 using Cliapi.GraphQL;
+using Cliapi.GraphQL.Commands;
 using Cliapi.GraphQL.Platforms;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +40,7 @@ namespace Cliapi
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
                 .AddType<PlatformType>()
+                .AddType<CommandType>()
                 .AddFiltering()
                 .AddSorting();
         }
