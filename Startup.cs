@@ -28,11 +28,12 @@ namespace Cliapi
         public void ConfigureServices(IServiceCollection services)
         {
             var builder = new SqlConnectionStringBuilder();
-            Configuration.GetConnectionString("SQLServerConnection");
+            builder.ConnectionString = Configuration.GetConnectionString("SQLServerConnection");
             builder.UserID = Configuration["UserId"];
             builder.Password = Configuration["Password"];
 
-            services.AddPooledDbContextFactory<AppDbContext>(opt => opt.UseSqlServer(builder.ConnectionString));
+            services.AddPooledDbContextFactory<AppDbContext>(opt => opt.UseSqlServer
+                (builder.ConnectionString));
 
             services
                 .AddGraphQLServer()
