@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>cliapi-e1a14971-f992-4683-8089-e2555e4101ad</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
