@@ -25,7 +25,7 @@ namespace Cliapi
         {
             Configuration = configuration;
         }
-
+        //This is a test deploy
         public void ConfigureServices(IServiceCollection services)
         {
             var builder = new SqlConnectionStringBuilder();
