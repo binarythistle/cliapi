@@ -46,12 +46,9 @@ namespace Cliapi
         }
 
         
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsProduction())
-            {
-                context.Database.Migrate();
-            }
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
