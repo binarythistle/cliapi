@@ -36,6 +36,18 @@ namespace Cliapi
             services.AddPooledDbContextFactory<AppDbContext>(opt => opt.UseSqlServer
                 (builder.ConnectionString));
 
+            services.AddCors(opt => {
+                opt.AddPolicy("BlazorDevClientPolicy",
+                builder => 
+                {
+                    
+                    builder.WithOrigins(Configuration["Origin"])
+                        .AllowAnyHeader();
+                        //.AllowAnyMethod()
+                        //.AllowAnyOrigin();
+                });
+            });
+
             services
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
@@ -43,6 +55,7 @@ namespace Cliapi
                 .AddType<CommandType>()
                 .AddFiltering()
                 .AddSorting();
+                
         }
 
         
@@ -55,6 +68,10 @@ namespace Cliapi
             }
 
             app.UseRouting();
+
+            app.UseCors("BlazorDevClientPolicy");
+
+            
 
             app.UseEndpoints(endpoints =>
             {
